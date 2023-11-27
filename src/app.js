@@ -1,3 +1,7 @@
+// Configuracion de .env
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express'
 import handlebars from 'express-handlebars'
 import mongoose from 'mongoose'
@@ -10,11 +14,12 @@ import viewsRouter from './routes/views.routes.js'
 import messageModel from './dao/models/messages.model.js'
 
 // Configuración de express
-
 const app = express()
-
 app.use(express.json())
-const mongoose_URL = 'mongodb+srv://coder_55605:Probemosesto@cluster0.zxe3ha2.mongodb.net/desafio-5'
+
+//MongoDB URL desde .env
+const mongoose_URL = process.env.MONGOOSE_URI
+// Nombre de la base de datos en MongoDB
 const mongoDBName = 'ecommerce'
 
 app.engine('handlebars', handlebars.engine())
@@ -48,7 +53,7 @@ mongoose.connect(mongoose_URL, {dbName: mongoDBName})
             io.emit('updatedProducts', data)
         })
         
-        let messages = (await messageModel.find()) ? await messageModel.find() : []
+        let messages = (await messageModel.find()) || [];
         
         socket.broadcast.emit('alerta')
         socket.emit('logs', messages)
@@ -59,4 +64,4 @@ mongoose.connect(mongoose_URL, {dbName: mongoDBName})
         })
     })
 }) 
-.catch(e => console.error('Error to connect 🚨🚨🚨'))
+.catch(e => console.error('Error to connect 🚨🚨🚨', e))

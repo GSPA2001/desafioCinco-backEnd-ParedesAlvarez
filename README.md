@@ -14,7 +14,8 @@ Instalación:
 * npm install express-handlebars
 * npm install mongoose
 * npm install socket.io
-* Para visualización, en terminal: nodemon src/app.js
+* npm install dotenv (para el archivo .env)
+* Para visualización, en terminal: npm run start
 
 ## Funcionamiento de los endpoints:
 * Al acceder a http://localhost:8080/api/products, se obtienen todos los productos.
